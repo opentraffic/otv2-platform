@@ -8,13 +8,11 @@ After a successful proof-of-concept by the World Bank, Grab, and Conveyal (known
 
 ![](images/otv2-architecture-component-diagram.png)
 
-<!-- https://drive.google.com/open?id=1ByaTsaVZOfktk14ev57kM7qIqH1Da3dS9UtiTrTPJpU -->
+<!-- https://docs.google.com/drawings/d/1QkKfTWyp2DveSIVjVYfMm0IcfDuAii_VC6Tj5QB_U44/edit -->
 
 ## Data flows
 
-![](images/otv2-data-flows-diagram.png)
-
-<!-- https://docs.google.com/a/mapzen.com/drawings/d/146rb5VQ1js5_NZ-lP_Dh3t8nkkDcb2Bmibsncp05VLA/edit?usp=sharing -->
+TODO
 
 ## System Components
 
