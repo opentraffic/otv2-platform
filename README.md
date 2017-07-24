@@ -1,18 +1,32 @@
+***OTv2 is currently under development. The following docs and diagrams may change&mdash;and may not exactly reflect the state of work-in-progress.***
+
 # Open Traffic v2 platform
 
 Open Traffic is a global data platform to process anonymous positions of vehicles and smartphones into real-time and historical traffic statistics. We're building this in the open, using fully open-source software, with involvement from a growing list of partners.
 
 After a successful proof-of-concept by the World Bank, Grab, and Conveyal (known as OTv1), Mapzen is working with the partners to build out a new version of the platform that will scale to have global coverage (known as OTv2). For more information on OTv1, see the [opentraffic/architecture](https://github.com/opentraffic/architecture) repository.
 
-## Technical architecture
+## Basic technical architecture
+
+The OTv2 platform is built of both distributed and centralized services:
+
+![](images/otv2-overview-component-diagram.png)
+<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/1pOKafG_SjF6xovM-gJ1By1rSYHyOV1LnmQ15lmvH5cg/edit -->
+
+From left to right the components in this diagram are:
+
+1. **Open Traffic Basemap Producer** is a centralized service. On a regular basis, it ingests OpenStreetMap data and outputs the OSMLR segments against which traffic statistics are matched, reported, stored, and displayed.
+2. **Open Traffic Reporter** is run by each organization that contributes probe data to Open Trafic. Each Reporter instance ingests GPS location streams, map-matches those locations against OSMLR segments, aggregates these locations into anonymous speed statistics.
+3. **Open Traffic Datastore** receives and merges together the anonymous speed statistics from all of the Reporter instances. Datastore creates a variety of public data extracts from its historical records of traffic statistics, including space/time tile files to power the Analyst User Interface and routing graph tile files to power a traffic-influenced routing engine.
+4. An instance of Valhalla serves as a **traffic-influenced routing engine**.
+5. **Open Traffic Analyst User Interface** serves as an easy-to-use view into Open Traffic's historical speed and observation count data, allowing basic querying by area, time, and route.
+
+## More detailed technical architecture
+
+The same as above, with more detail on the specific pieces within each component and the data flows between components:
 
 ![](images/otv2-architecture-component-diagram.png)
-
-<!-- https://docs.google.com/drawings/d/1QkKfTWyp2DveSIVjVYfMm0IcfDuAii_VC6Tj5QB_U44/edit -->
-
-## Data flows
-
-TODO
+<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/1QkKfTWyp2DveSIVjVYfMm0IcfDuAii_VC6Tj5QB_U44/edit -->
 
 ## System Components
 
