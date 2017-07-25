@@ -129,13 +129,13 @@ Slightly more advanced users will be encouraged to download the public data extr
 
 ### Traffic-influenced routing engine
 
-The [Valhalla routing engine](https://github.com/valhalla) will offer journey-planning that is weighted by historical and real-time speeds.
+The [Valhalla routing engine](https://github.com/valhalla) will offer journey-planning that is weighted by historical speeds, as included in the historical routing graph tiles produced on a regular basis by Datastore.
 
 → See [this blog post](https://mapzen.com/blog/speed-tiles/) for a proof-of-concept using traffic speeds to influence Valhalla routing.
 
 ### Traffic maps
 
-In the future, it will be possible to turn the Datastore's public data extracts into traffic maps.
+Datastore's public data extracts can be turned into traffic maps for display. While not formally part of the OTv2 platform, we are demonstrating future possibilities during the development process:
 
 → See [this demo](https://mapzen.github.io/open-traffic-poc-data-demo/) using the Tangram map rendering library to display an entire day's worth of traffic in Manila (from the OTv1 platform). Here is an animated screenshot of some of the map:
 
