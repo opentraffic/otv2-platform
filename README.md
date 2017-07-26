@@ -52,9 +52,9 @@ The OTv2 platform is built of both distributed and centralized services:
 From left to right the components in this diagram are:
 
 1. **Open Traffic Basemap Producer** is a centralized service. On a regular basis, it ingests OpenStreetMap data and outputs the OSMLR segments against which traffic statistics are matched, reported, stored, and displayed.
-2. **Open Traffic Reporter** is run by each organization that contributes probe data to Open Trafic. Each Reporter instance ingests GPS location streams, map-matches those locations against OSMLR segments, aggregates these locations into anonymous speed statistics.
+2. **Open Traffic Reporter** is run by each organization that contributes probe data to Open Traffic. Each Reporter instance ingests GPS location streams, map-matches those locations against OSMLR segments, aggregates these locations into anonymous speed statistics.
 3. **Open Traffic Datastore** receives and merges together the anonymous speed statistics from all of the Reporter instances. Datastore creates a variety of public data extracts from its historical records of traffic statistics, including space/time tile files to power the Analyst User Interface and routing graph tile files to power a traffic-influenced routing engine.
-4. An instance of Valhalla serves as a **traffic-influenced routing engine**.
+4. An instance of [Valhalla](https://github.com/valhalla), an open-source routing engine by Mapzen, serves as a **traffic-influenced routing engine**.
 5. **Open Traffic Analyst User Interface** serves as an easy-to-use view into Open Traffic's historical speed and observation count data, allowing basic querying by area, time, and route.
 
 ### More detailed component diagram
@@ -91,14 +91,14 @@ Reporter is run by each organization that is providing probe data to the Open Tr
 Reporter performs the following steps:
 
 1. Reformat incoming GPS-derived points to match the expected key names and structure
-2. Collect points into a moving window
+2. Collect points into a moving window. That is, a time-ordered slice of a single vehicle's positions.
 3. Match the trajectory of points in the window to OSMLR segments, using the map-matching utilities provided by [Valhalla Meili](https://github.com/valhalla/valhalla/blob/master/docs/meili.md) and the Valhalla routing graph tiles created by the Basemap Producer
 4. Pools matches to ensure they pass privacy thresholds
-5. When privacy thresholds are met, send resulting binned speeds and observation counts to the centralized Open Traffic Datastore
+5. When privacy thresholds are met, send resulting binned times and observation counts to the centralized Open Traffic Datastore
 
 → See more documentation in [the Reporter repository](https://github.com/opentraffic/reporter).
 
-→ The nature of map-matching and generating traffic statistics is probablistic and error prone, see the [Reporter Quality Testing Rig](https://github.com/opentraffic/reporter-quality-testing-rig) for more information on how to evaluate and tune a Reporter deployment.
+→ The nature of map-matching and generating traffic statistics is probabilistic; noisy GPS input can produce variable results . See the [Reporter Quality Testing Rig](https://github.com/opentraffic/reporter-quality-testing-rig) for more information on how to evaluate and tune a Reporter deployment.
 
 ### Datastore
 
