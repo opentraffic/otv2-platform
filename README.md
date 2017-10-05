@@ -83,7 +83,7 @@ On a regularly basis (weekly), the Basemap Generator combines OpenStreetMap data
 
 (In OTv1, this component was called the [Traffic Engine](https://github.com/opentraffic/traffic-engine).)
 
-Reporter is run by each organization that is providing probe data to the Open Traffic platform. Reporter is distributed as a set of Docker containers, or can be run anywhere Java, Python, and [Apache Kafka](https://kafka.apache.org/) are available.
+Reporter is run by each organization that is providing probe data to the Open Traffic platform. Reporter is distributed as a set of Docker containers, or can be run anywhere Java, Python, and [Apache Kafka](https://kafka.apache.org/) are available. Reporter can also be run as a script against historical speed archives, without Kafka.
 
 Reporter performs the following steps:
 
