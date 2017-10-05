@@ -1,7 +1,4 @@
-***OTv2 is currently under development. The following docs and diagrams may change&mdash;and may not exactly reflect the state of work-in-progress.***
-
 # Open Traffic v2 platform
-
 
 ## Contents
 
@@ -25,7 +22,7 @@
   * [Data Privacy and Competitive Concerns](#data-privacy-and-competitive-concerns)
   * [Analyst User Interface](#analyst-user-interface)
   * [Traffic-influenced routing engine](#traffic-influenced-routing-engine)
-  * [Traffic maps](#traffic-maps)
+  * [Stand-alone traffic maps](#stand-alone-traffic-maps)
 
 <!-- tocstop -->
 
@@ -47,14 +44,14 @@ The following diagrams and documentation describe OTv2. For more information on 
 The OTv2 platform is built of both distributed and centralized services:
 
 ![](images/otv2-overview-component-diagram.png)
-<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/1pOKafG_SjF6xovM-gJ1By1rSYHyOV1LnmQ15lmvH5cg/edit -->
+<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/12B5inmN1jrfIjJ2BQLnVJl3uW_g30OGr7DFiwA9nQTM/edit -->
 
 From left to right the components in this diagram are:
 
 1. **Open Traffic Basemap Producer** is a centralized service. On a regular basis, it ingests OpenStreetMap data and outputs the OSMLR segments against which traffic statistics are matched, reported, stored, and displayed.
 2. **Open Traffic Reporter** is run by each organization that contributes probe data to Open Traffic. Each Reporter instance ingests GPS location streams, map-matches those locations against OSMLR segments, aggregates these locations into anonymous speed statistics.
 3. **Open Traffic Datastore** receives and merges together the anonymous speed statistics from all of the Reporter instances. Datastore creates a variety of public data extracts from its historical records of traffic statistics, including space/time tile files to power the Analyst User Interface and routing graph tile files to power a traffic-influenced routing engine.
-4. An instance of [Valhalla](https://github.com/valhalla), an open-source routing engine by Mapzen, serves as a **traffic-influenced routing engine**.
+4. An instance of [Valhalla](https://github.com/valhalla), an open-source routing engine by Mapzen, serves as a **routing engine**.
 5. **Open Traffic Analyst User Interface** serves as an easy-to-use view into Open Traffic's historical speed and observation count data, allowing basic querying by area, time, and route.
 
 ### More detailed component diagram
@@ -62,7 +59,7 @@ From left to right the components in this diagram are:
 The same as above, with more detail on the specific pieces within each component and the data flows between components:
 
 ![](images/otv2-architecture-component-diagram.png)
-<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/1QkKfTWyp2DveSIVjVYfMm0IcfDuAii_VC6Tj5QB_U44/edit -->
+<!-- To view and edit the original diagram: https://docs.google.com/drawings/d/17KOkCOvnq7WyUmsnmHoaQjarUO4eLqBFv7TIq0QY9ac/edit -->
 
 ## System components
 
@@ -98,7 +95,7 @@ Reporter performs the following steps:
 
 → See more documentation in [the Reporter repository](https://github.com/opentraffic/reporter).
 
-→ The nature of map-matching and generating traffic statistics is probabilistic; noisy GPS input can produce variable results . See the [Reporter Quality Testing Rig](https://github.com/opentraffic/reporter-quality-testing-rig) for more information on how to evaluate and tune a Reporter deployment.
+→ The nature of map-matching and generating traffic statistics is probabilistic; noisy GPS input can produce variable results . See the [Reporter Quality Testing Rig](https://github.com/opentraffic/reporter-quality-testing-rig) for more information on how to evaluate and tune a Reporter deployment. Also described in a series of blog posts: [one](https://mapzen.com/blog/map-matching-validation/), [two](https://mapzen.com/blog/data-driven-map-matching/), [three](https://mapzen.com/blog/map-matching-post-processing/), [four](https://mapzen.com/blog/map-matching-built-env/).
 
 ### Datastore
 
@@ -108,39 +105,45 @@ The [Datastore](https://github.com/opentraffic/datastore) ingests input from dis
 
 From the histogram tile files, Datastore produces a variety of public data extracts:
 
-- historical data analysis files, for querying and visualization
-- historical routing graph tiles, to power a Valhalla routing engine
+- historical average speed tiles (`.spd` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#historical-average-speed-tiles)
+- intersection delay and queue length tiles (`.nex` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#intersection-delays-and-queue-lengths)
+- reference speed tiles (`.ref` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#reference-speed-tiles)
+- coverage maps → [documentation](https://github.com/opentraffic/datastore/blob/master/coverage_map.md)
+
+→ See more documentation in [the Datastore repository](https://github.com/opentraffic/datastore).
 
 ### Data Privacy and Competitive Concerns
 
 Note that the Datastore does not store any personally identifiable information. The contents of the histogram tile files have been aggregated such that it should not be possible to reconstruct the paths of any individuals.
 
-The histogram tile files include the number of vehicles/drivers observed along each OSMLR segment. This volume information is important for weighting averages and other statistics. However, releasing to the public the exact number of vehicles/drivers along specific roads may reveal too much information about the business operations of Open Traffic's data providers. Therefore, public data extracts produced by the Datastore only include vheicle/driver counts as a binned volume index.
+The histogram tile files include the number of vehicles/drivers observed along each OSMLR segment. This volume information is important for weighting averages and other statistics. However, releasing to the public the exact number of vehicles/drivers along specific roads may reveal too much information about the business operations of Open Traffic's data providers. Therefore, public data extracts produced by the Datastore only include vheicle/driver counts as a binned "prevalence" index.
 
 ### Analyst User Interface
 
-(In OTv1, this component was the [Traffic Engine App](https://github.com/opentraffic/traffic-engine-app).) Here is a screenshot of the OTv1 interface in action:
+(In OTv1, this component was the [Traffic Engine App](https://github.com/opentraffic/traffic-engine-app).)
 
-![](images/otv1-traffic-engine-app-screenshot.png)
+The Analyst UI provides a simple way of performing basic exploration and querying of OTv2 data. It is powered by the Datastore's public data extracts, just by downloading tile files from AWS S3.
 
-The Analyst UI will provide a similarly simple way of performing basic exploration and querying of OTv2 data. It will be powered by the Datastore's public data extracts.
+![screenshot of Open Traffic Analyst UI](/images/otv2-analyst-ui-screenshot.png)
 
-Slightly more advanced users will be encouraged to download the public data extracts directly and use Jupyter Notebooks, scientific Python libraries, and R to do perform their analysis.
+→ See more documentation in [the Analyst UI repository](https://github.com/opentraffic/analyst-ui).
 
-### Traffic-influenced routing engine
+### Routing engine
 
-The [Valhalla routing engine](https://github.com/valhalla) will offer journey-planning that is weighted by historical speeds, as included in the historical routing graph tiles produced on a regular basis by Datastore.
+Analyst UI uses the [Valhalla routing engine](https://github.com/valhalla) to plan journeys between origins and one or more destinations. Analyst UI then uses the Datastore's public data extracts to calculate the ETA along these routes. 
+
+In the future, Valhalla may also offer journey-planning that is weighted by historical and/or real-time speeds.
+
+→ See [this documentation](https://mapzen.com/documentation/mobility/turn-by-turn/api-reference/) for more information on Valhalla's routing API.
+
+→ See [this documentation](https://mapzen.com/documentation/mobility/map-matching/api-reference/#trace-attributes-action) for more information on Valhalla's `trace_attributes` action, which is also used by Analyst UI.
 
 → See [this blog post](https://mapzen.com/blog/speed-tiles/) for a proof-of-concept using traffic speeds to influence Valhalla routing.
 
-### Traffic maps
+### Stand-alone traffic maps
 
 Datastore's public data extracts can be turned into traffic maps for display. While not formally part of the OTv2 platform, we are demonstrating future possibilities during the development process:
 
 → See [this demo](https://mapzen.github.io/open-traffic-poc-data-demo/) using the Tangram map rendering library to display an entire day's worth of traffic in Manila (from the OTv1 platform). Here is an animated screenshot of some of the map:
 
 ![](images/otv1-tangram-map-demo-animation.gif)
-
-→ See [this code](https://github.com/opentraffic/tangram-viz-experiments) using the Tangram map rendering library to display speeds from OTv2. Here is a screenshot of this map showing traffic in Singapore:
-
-![](images/otv2-tangram-demo-map-screenshot.png)
