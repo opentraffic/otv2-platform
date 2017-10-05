@@ -21,7 +21,7 @@
   * [Datastore](#datastore)
   * [Data Privacy and Competitive Concerns](#data-privacy-and-competitive-concerns)
   * [Analyst User Interface](#analyst-user-interface)
-  * [Traffic-influenced routing engine](#traffic-influenced-routing-engine)
+  * [Routing engine](#routing-engine)
   * [Stand-alone traffic maps](#stand-alone-traffic-maps)
 
 <!-- tocstop -->
