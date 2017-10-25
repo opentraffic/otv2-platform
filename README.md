@@ -69,11 +69,11 @@ The Basemap Generator is a set of centralized processes that regularly create th
 
 #### OSMLR
 
-On a regular basis (likely quarter), the Basemap Generator runs the [OSMLR application](https://github.com/opentraffic/osmlr) to create traffic segments according to the [OSMLR tile spec](https://github.com/opentraffic/osmlr-tile-spec). Outputs are in protocol buffer and GeoJSON formats. The resulting worldwide OSMLR tile set is available for free use by all.
+On a regular basis (likely quarter), the Basemap Generator runs the [OSMLR application](https://github.com/opentraffic/osmlr) to create traffic segments according to the [OSMLR tile spec](https://github.com/opentraffic/osmlr-tile-spec). Outputs are in protocol buffer and GeoJSON formats. The resulting worldwide OSMLR tile set is available for free use by all [through the Amazon Public Datasets program](https://mapzen.com/blog/osmlr-released-as-public-dataset/).
 
 → See [this blog post](https://mapzen.com/blog/open-traffic-osmlr-technical-preview) and [this blog post](https://mapzen.com/blog/osmlr-2nd-technical-preview/) for an introduction to OSMLR.
 
-→ To download OSMLR segment tiles, go to [these S3 bucket listings](https://s3.amazonaws.com/osmlr-tiles/listing.html).
+→ To download OSMLR segment tiles, go to [these S3 bucket listings](https://s3.amazonaws.com/osmlr/listing.html).
 
 #### Valhalla routing graph tiles with OSMLR segment associations
 
