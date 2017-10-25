@@ -105,10 +105,10 @@ The [Datastore](https://github.com/opentraffic/datastore) ingests input from dis
 
 From the histogram tile files, Datastore produces a variety of public data extracts:
 
-- historical average speed tiles (`.spd` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#historical-average-speed-tiles)
-- intersection delay and queue length tiles (`.nex` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#intersection-delays-and-queue-lengths)
-- reference speed tiles (`.ref` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/public_data_extracts.md#reference-speed-tiles)
-- coverage maps → [documentation](https://github.com/opentraffic/datastore/blob/master/coverage_map.md)
+- historical average speed tiles (`.spd` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/docs/public_data_extracts.md#historical-average-speed-tiles)
+- intersection delay and queue length tiles (`.nex` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/docs/public_data_extracts.md#intersection-delays-and-queue-lengths)
+- reference speed tiles (`.ref` tiles) → [documentation](https://github.com/opentraffic/datastore/blob/master/docs/public_data_extracts.md#reference-speed-tiles)
+- coverage maps → [documentation](https://github.com/opentraffic/datastore/blob/master/docs/coverage_map.md)
 
 → See more documentation in [the Datastore repository](https://github.com/opentraffic/datastore).
 
