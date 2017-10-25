@@ -116,7 +116,7 @@ From the histogram tile files, Datastore produces a variety of public data extra
 
 Note that the Datastore does not store any personally identifiable information. The contents of the histogram tile files have been aggregated such that it should not be possible to reconstruct the paths of any individuals.
 
-The histogram tile files include the number of vehicles/drivers observed along each OSMLR segment. This volume information is important for weighting averages and other statistics. However, releasing to the public the exact number of vehicles/drivers along specific roads may reveal too much information about the business operations of Open Traffic's data providers. Therefore, public data extracts produced by the Datastore only include vheicle/driver counts as a binned "prevalence" index.
+The histogram tile files include the number of vehicles/drivers observed along each OSMLR segment. This volume information is important for weighting averages and other statistics. However, releasing to the public the exact number of vehicles/drivers along specific roads may reveal too much information about the business operations of Open Traffic's data providers. Therefore, public data extracts produced by the Datastore only include vehicle/driver counts as a binned "prevalence" index.
 
 ### Analyst User Interface
 
@@ -144,6 +144,6 @@ In the future, Valhalla may also offer journey-planning that is weighted by hist
 
 Datastore's public data extracts can be turned into traffic maps for display. While not formally part of the OTv2 platform, we are demonstrating future possibilities during the development process:
 
-→ See [this demo](https://mapzen.github.io/open-traffic-poc-data-demo/) using the Tangram map rendering library to display an entire day's worth of traffic in Manila (from the OTv1 platform). Here is an animated screenshot of some of the map:
+→ See [this demo](https://mapzen.github.io/open-traffic-poc-data-demo/) using the [Tangram map rendering library](https://github.com/tangrams/tangram) to display an entire day's worth of traffic in Manila (from the OTv1 platform). Here is an animated screenshot of some of the map:
 
 ![](images/otv1-tangram-map-demo-animation.gif)
